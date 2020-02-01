@@ -24,7 +24,7 @@ class projectView(APIView):
 
 class siteView(APIView):
     def get(self,request):
-        sitedbdata = project.objects.all()
+        sitedbdata = site.objects.all()
         siteserilized = siteSerializer(sitedbdata,many=True)     
         return Response(siteserilized.data)        
 
