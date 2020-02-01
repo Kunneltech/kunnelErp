@@ -8,8 +8,8 @@ from rest_framework.views import APIView
 class shiftView(APIView):
     def get(self,request):
         dbdata = shiftInfo.objects.all()
-        projectserilized = shiftInfoSerializer(dbdata,many=True)      
-        return Response(responsedict)        
+        serilized = shiftInfoSerializer(dbdata,many=True)      
+        return Response(serilized.data)        
 
 
     def post(self,request):

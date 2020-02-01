@@ -10,7 +10,7 @@ class projectView(APIView):
     def get(self,request):
         dbdata = project.objects.all()
         projectserilized = projectSerializer(dbdata,many=True)      
-        return Response(responsedict)        
+        return Response(projectserilized.data)        
 
 
     def post(self,request):

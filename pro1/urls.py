@@ -19,11 +19,11 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app1/',include('app1.urls')),
-    path('account/',include('accountManage.urls')),
-    path('attendance/',include('attendanceManage.urls')),
-    path('labourer/',include('labourer.urls')),
-    path('labourerclass/',include('labourerclassManage.urls')),
-    path('payment/',include('paymentManage.urls')),
-    path('project/',include('projectmanage.urls')),
-    path('shift/',include('shiftmanage.urls'))
+    path('accountmanage/',include('accountManage.urls')),
+    path('attendancemanage/',include('attendanceManage.urls')),
+    path('labourermanage/',include('labourer.urls')),
+    path('labourerclassmanage/',include('labourerclassManage.urls')),
+    path('paymentmanage/',include('paymentManage.urls')),
+    path('projectmanage/',include('projectmanage.urls')),
+    path('shiftmanage/',include('shiftmanage.urls'))
 ]
