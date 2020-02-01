@@ -20,5 +20,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('app1/',include('app1.urls')),
     path('account/',include('accountManage.urls')),
-    path('attendance/',include('attendanceManage.urls'))
+    path('attendance/',include('attendanceManage.urls')),
+    path('labourer/',include('labourer.urls')),
+    path('labourerclass/',include('labourerclassManage.urls')),
+    path('payment/',include('paymentManage.urls')),
+    path('project/',include('projectmanage.urls')),
+    path('shift/',include('shiftmanage.urls'))
 ]

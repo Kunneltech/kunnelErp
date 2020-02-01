@@ -1,3 +1,21 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from .models import shiftInfo
+from .serializers import shiftInfoSerializer
+from rest_framework.views import APIView
 
-# Create your views here.
+
+
+class shiftView(APIView):
+    def get(self,request):
+        dbdata = shiftInfo.objects.all()
+        projectserilized = shiftInfoSerializer(dbdata,many=True)      
+        return Response(responsedict)        
+
+
+    def post(self,request):
+        recivedata = request.data
+        serialized = shiftInfoSerializer(data=recivedata)
+        if serialized.is_valid():
+            serialized.save()
+            response = {"satus":"shift added sucessfully created sucessfully"}
+            return Response(response)  
