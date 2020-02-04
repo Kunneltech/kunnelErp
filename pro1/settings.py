@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'attendanceManage',
     'projectmanage',
     'shiftmanage',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken'
 
 ]
 

@@ -35,8 +35,8 @@ class userViews(APIView):
             print("token",token)
             # data["response"]="sucess"
             # data["token"]= str(toekn)
-            response = {"satus":"user created sucessfully"}
-            return Response(response)
+            res = {"satus":"user created sucessfully"}
+            return Response(res)
 
 
 class staffViews(APIView):
