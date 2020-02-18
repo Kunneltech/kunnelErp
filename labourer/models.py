@@ -21,6 +21,7 @@ class LabourerManage(models.Model):
     salaryStructure = models.CharField(max_length=50)
     labourerType    = models.CharField(max_length=50)
     skillType       = models.CharField(max_length=50)
+    site_id         = models.CharField(max_length=50,default=0)
 
 
 

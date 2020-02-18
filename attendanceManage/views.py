@@ -7,6 +7,8 @@ from shift.models import shift
 from shift.serializers import shiftInfoSerializer
 from datetime import datetime,timedelta,time
 import json
+from sitemanage.models import SiteManage
+from sitemanage.serializers import SiteManageSerializer
 
 class attendanceViews(APIView):
 
@@ -29,43 +31,53 @@ class attendanceViews(APIView):
 
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 def checkin(request):
-    labourerid = "lab056522007"
-    siteid = "site005558"
-    
-    # timeobj = (datetime.now())
-    shifttime = datetime.strptime("06:30:00",'%H:%M:%S')
-    timeobj = datetime.strptime("06:00:00",'%H:%M:%S') 
-    # date = timeobj.date()
-    date = "2020-02-17"
-    shiftid = "45566"
+    data = request.data
+    labourerid = data["labourerid"]
+    siteid = data["siteid"]
+    timeobj = data["time"]
+    date  =  data["date"]
+    siteobj = SiteManage.objects.filter(site_id=siteid)
+    site = SiteManageSerializer(siteobj,many=True)
+    start_time = str(site.data[0]["start_time"])
+    print("starttime...........,,",start_time)
+    shifttime = datetime.strptime(start_time,'%H:%M:%S').time()
+    print("timeobj.......",timeobj)
+    shiftid = "shift001"
+    # intime = datetime.strptime("06:00:00",'%H:%M:%S') 
+    intime = datetime.strptime(str(timeobj),'%H:%M:%S').time()
     print("shifttime",shifttime,"...........",timeobj)
 
-    if timeobj.time() < shifttime.time():
-        check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date, intime =shifttime.time(), shiftid = shiftid)
+    if intime < shifttime:
+        check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date, intime =shifttime, shiftid = shiftid)
         check.save()
     else:
-        check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =timeobj.time(), shiftid = shiftid)
+        check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =intime, shiftid = shiftid)
         check.save()        
 
     return Response("sucess")
 
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 def checkout(request):
-    
-    timeobj = (datetime.now())
-    labourerid ="lab056522007"
-    siteid = "site005558"
-    # date = timeobj.date()
-    date = "2020-02-17"
-    shiftid = "45566"
-    print("date......",date)
-    outtime = datetime.strptime("17:50:00",'%H:%M:%S')
-    closetime = datetime.strptime("18:30:00",'%H:%M:%S')
-    bufftime = datetime.strptime("19:00:00",'%H:%M:%S')
+    data = request.data
+    labourerid = data["labourerid"]
+    siteid = data["siteid"]
+    date = data["date"]
+    outt = data["time"]
+
+    siteobj = SiteManage.objects.filter(site_id=siteid)
+    site = SiteManageSerializer(siteobj,many=True)
+    end_time = str(site.data[0]["end_time"])
+    buff_time = str(site.data[0]["end_buffer"])    
+
+    outtime = datetime.strptime(outt,'%H:%M:%S')
+    # closetime = datetime.strptime("18:30:00",'%H:%M:%S')
+    closetime = datetime.strptime(str(end_time),'%H:%M:%S')
+    # bufftime = datetime.strptime("19:00:00",'%H:%M:%S')
+    bufftime = datetime.strptime(str(buff_time),'%H:%M:%S')
 
     if outtime.time() > closetime.time() and outtime.time() < bufftime.time():
         print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] 1 ")
@@ -96,11 +108,13 @@ def checkout(request):
         checkin = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
-        workhour = outtime.hour - datetime.strptime(intime,'%H:%M:%S').hour
-        workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+        workhour = closetime.hour - datetime.strptime(intime,'%H:%M:%S').hour
+        workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
         wotktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')        
         hours = outtime.hour-closetime.hour
-        minutes = outtime.minute-closetime.minute
+        if closetime.minute > outtime.minute:
+            minutes = outtime.minute-closetime.minute
+        minutes ="00"
         print("....hour...minute",hours,minutes)
         otTime = datetime.strptime((str(hours)+":"+str(minutes)+":"+"00"),'%H:%M:%S')
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)

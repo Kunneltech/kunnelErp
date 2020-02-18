@@ -27,6 +27,7 @@ urlpatterns = [
     path('labourerclassmanage/',include('labourerclassManage.urls')),
     path('paymentmanage/',include('paymentManage.urls')),
     path('projectmanage/',include('projectmanage.urls')),
-    path('shiftmanage/',include('shift.urls'))
+    path('shiftmanage/',include('shift.urls')),
+    path('sitemanage/',include('sitemanage.urls'))
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

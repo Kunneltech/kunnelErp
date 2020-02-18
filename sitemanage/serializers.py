@@ -1,7 +1,17 @@
 from rest_framework import serializers
-from .models import SiteManage
+from sitemanage.models import SiteManage
 
-class siteManageSerializers(serializers.ModelSerializers):
-    class Meta:
-        model = SiteManage
-        fields = '__all__'
+
+
+
+class SiteManageSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = SiteManage
+		fields = '__all__'
+
+class SiteManageCreateSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = SiteManage
+		fields = '__all__'
