@@ -14,7 +14,9 @@ class labourerView(APIView):
     def post(self,request):
         recivedata = request.data
         serialized = LabourerSerializer(data=recivedata)
+        print("serilized...",serialized)
         if serialized.is_valid():
+            print("........,,,,///is valied")
             serialized.save()
             response = {"satus":"labourer added sucessfully created sucessfully"}
             return Response(response)            
