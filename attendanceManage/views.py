@@ -84,12 +84,25 @@ def checkout(request):
         checkin = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
-        workhour = outtime.hour - datetime.strptime(intime,'%H:%M:%S').hour
-        workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
-        wotktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')
-        print("workour.............",workhour,".........",workminute)
+        workhour = closetime.hour - datetime.strptime(intime,'%H:%M:%S').hour
+        if closetime.minute > datetime.strptime(intime,'%H:%M:%S').minute:
+            # print(".............x",closetime)
+            workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+            # print("...///",workminute)
+
+        elif close.minute == 0  and (datetime.strptime(intime,'%H:%M:%S').minute)== 0:
+            # print(".............y")
+            workminute = "00"            
+
+        else:
+            print(".............z")
+            bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
+            workminute = bufftime+closetime.minute            
+
+        worktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')
+        print("workour.............",workhour,".........",workminute,"..worktime",worktime)
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
-        data.update(outtime=closetime.time(),workhours=wotktime,othours="00:00:00",otstatus=False)        
+        data.update(outtime=closetime.time(),workhours=worktime.time(),othours="00:00:00",otstatus=False)        
 
     elif outtime.time()<closetime.time():
         print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]] 2 ")
@@ -98,9 +111,15 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = outtime.hour - datetime.strptime(intime,'%H:%M:%S').hour
-        if datetime.strptime(intime,'%H:%M:%S').minute < outtime.minute:
+        if (datetime.strptime(intime,'%H:%M:%S').minute) < (outtime.minute):
             workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
-        workminute ="00"
+        elif outtime.minute ==0  and (datetime.strptime(intime,'%H:%M:%S').minute)==0:
+            workminute = "00"
+        else:
+            print(".......................elseee")
+            bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
+            workminute = bufftime+outtime.minute
+        print(".......................workminute",workminute)
         wotktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')        
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         data.update(outtime=outtime.time(),workhours=wotktime,othours="00:00:00",otstatus=False) 
@@ -111,12 +130,25 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = closetime.hour - datetime.strptime(intime,'%H:%M:%S').hour
-        workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+        if (datetime.strptime(intime,'%H:%M:%S').minute) < (closetime.minute):
+            workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+        elif closetime.minute ==0  and (datetime.strptime(intime,'%H:%M:%S').minute)==0:
+            workminute = "00"            
+        else:
+            bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
+            workminute = bufftime+closetime.minute        
+    
         wotktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')        
         hours = outtime.hour-closetime.hour
-        if closetime.minute > outtime.minute:
+
+        if closetime.minute < outtime.minute:
             minutes = outtime.minute-closetime.minute
-        minutes ="00"
+        elif outtime.minute == 0  and closetime.minute ==0:
+            minutes = "00"            
+        else:
+            bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
+            minutes = bufftime+outtime.minute
+
         print("....hour...minute",hours,minutes)
         otTime = datetime.strptime((str(hours)+":"+str(minutes)+":"+"00"),'%H:%M:%S')
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
@@ -129,12 +161,14 @@ def checkout(request):
 
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def allAttendance(request):
     recdata = request.data
-    attendance = labourWorkTime.objects.filter(siteid = "site005558")
+    siteid = recdata["siteid"]
+    dates = recdata["date"]
+    attendance = labourWorkTime.objects.filter(siteid = siteid)
     retdict = labourerworkTimeSerializer(attendance,many=True).data
-    dates = ["2020-02-15","2020-07-02","2020-07-03"]
+    # dates = ["2020-02-15","2020-07-02","2020-07-03"]
     print(".............",len(retdict))
     ls = []
     tupl = ()
@@ -169,7 +203,8 @@ def personAttendance(request):
     recdata = request.data
     ls = []
     rec = []
-    labourerid ="lab056522007"
+    # labourerid ="lab056522007"
+    labourerid = recdata["labourerid"]
     lab = labourWorkTime.objects.filter(labourerid =labourerid)
     dbdata = (labourerworkTimeSerializer(lab,many=True).data)
     print(".................",len(dbdata))
