@@ -90,7 +90,7 @@ def checkout(request):
             workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
             # print("...///",workminute)
 
-        elif close.minute == 0  and (datetime.strptime(intime,'%H:%M:%S').minute)== 0:
+        elif closetime.minute == 0  and (datetime.strptime(intime,'%H:%M:%S').minute)== 0:
             # print(".............y")
             workminute = "00"            
 
