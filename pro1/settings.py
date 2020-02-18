@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'accountManage',
     'attendanceManage',
     'projectmanage',
-    'shiftmanage',
+    'shift',
+    'sitemanage',
     'rest_framework',
     'rest_framework.authtoken'
 
@@ -97,8 +98,8 @@ WSGI_APPLICATION = 'pro1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'just1',
-        'USER':'just1',
+        'NAME':'just3',
+        'USER':'just3',
         'PASSWORD':'12345',
         'HOST':'localhost',
     }
@@ -144,3 +145,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 django_heroku.settings(locals())
+
+
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
