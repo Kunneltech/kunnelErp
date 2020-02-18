@@ -98,7 +98,9 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = outtime.hour - datetime.strptime(intime,'%H:%M:%S').hour
-        workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+        if datetime.strptime(intime,'%H:%M:%S').minute < outtime.minute:
+            workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+        workminute ="00"
         wotktime = datetime.strptime((str(workhour)+":"+str(workminute)+":"+"00"),'%H:%M:%S')        
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         data.update(outtime=outtime.time(),workhours=wotktime,othours="00:00:00",otstatus=False) 
