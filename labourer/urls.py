@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import labourerInfoView
+from .views import labourerView
 
 
 urlpatterns = [
-    path('labourer',labourerInfoView.as_view())
+    path('labourer',labourerView.as_view())
 ]
