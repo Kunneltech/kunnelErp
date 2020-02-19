@@ -2,10 +2,10 @@
 from rest_framework import serializers
 from .models import LabourerManage
 
-class LabourerSerializer(serializers.ModelSerializer):
+class LabourerSerializer(serial"labourerid"izers.ModelSerializer):
     class Meta:
         model = LabourerManage
-        fields = ["name","address","photo","aadharNumber","aadhrPhoto","department","fatherName","ACNumber","branchName","IFSCNumber","contact","bloodGroup","employeeCode","salaryStructure","labourerType","skillType"]
+        fields = ["name","labourerid","address","photo","aadharNumber","aadhrPhoto","department","fatherName","ACNumber","branchName","IFSCNumber","contact","bloodGroup","employeeCode","salaryStructure","labourerType","skillType"]
 
 
 
