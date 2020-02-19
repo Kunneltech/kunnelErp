@@ -5,7 +5,7 @@ from .models import LabourerManage
 class LabourerSerializer(serializers.ModelSerializer):
     class Meta:
         model = LabourerManage
-        fields = ["name","address","photo","aadharNumber","aadhrPhoto","department","fatherName","ACNumber","branchName","IFSCNumber","contact","bloodGroup","employeeCode","salaryStructure","labourerType","skillType"]
+        fields = ["name","labourerid","address","photo","aadharNumber","aadhrPhoto","department","fatherName","ACNumber","branchName","IFSCNumber","contact","bloodGroup","employeeCode","salaryStructure","labourerType","skillType"]
 
 
 

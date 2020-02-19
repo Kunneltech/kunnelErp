@@ -57,7 +57,7 @@ def checkin(request):
         check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =intime, shiftid = shiftid)
         check.save()        
 
-    return Response({"status":"chicken added sucessfully"})
+    return Response({"status":"checkein added sucessfully"})
 
 
 
@@ -162,7 +162,7 @@ def checkout(request):
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         data.update(outtime=outtime.time(),workhours=wotktime,othours=otTime,otstatus=False)         
 
-    return Response("status":"checkout sucessfully")
+    return Response({"status":"checkout sucessfully"})
 
 
 
