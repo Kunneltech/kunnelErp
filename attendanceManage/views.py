@@ -25,6 +25,7 @@ class attendanceViews(APIView):
             print("print attence response",attendaceRes)
             attendanceRes = {"status","attendace added suceefully"}
             return Response(attendaceRes)
+        return Response({"status":"wrong datastructure"})
 
 
 
@@ -56,7 +57,7 @@ def checkin(request):
         check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =intime, shiftid = shiftid)
         check.save()        
 
-    return Response("sucess")
+    return Response({"status":"wrong datastructure"})
 
 
 
@@ -85,6 +86,7 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = closetime.hour - datetime.strptime(intime,'%H:%M:%S').hour
+        
         if closetime.minute > datetime.strptime(intime,'%H:%M:%S').minute:
             # print(".............x",closetime)
             workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
@@ -111,10 +113,13 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = outtime.hour - datetime.strptime(intime,'%H:%M:%S').hour
+
         if (datetime.strptime(intime,'%H:%M:%S').minute) < (outtime.minute):
             workminute = outtime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+
         elif outtime.minute ==0  and (datetime.strptime(intime,'%H:%M:%S').minute)==0:
             workminute = "00"
+
         else:
             print(".......................elseee")
             bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
@@ -130,10 +135,13 @@ def checkout(request):
         intime = (labourerworkTimeSerializer(checkin,many=True).data)[0]["intime"]
         print("intime",intime)
         workhour = closetime.hour - datetime.strptime(intime,'%H:%M:%S').hour
+
         if (datetime.strptime(intime,'%H:%M:%S').minute) < (closetime.minute):
             workminute = closetime.minute - datetime.strptime(intime,'%H:%M:%S').minute
+
         elif closetime.minute ==0  and (datetime.strptime(intime,'%H:%M:%S').minute)==0:
             workminute = "00"            
+
         else:
             bufftime = 59 - datetime.strptime(intime,'%H:%M:%S').minute
             workminute = bufftime+closetime.minute        

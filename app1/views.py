@@ -37,6 +37,7 @@ class userViews(APIView):
             # data["token"]= str(toekn)
             res = {"satus":"user created sucessfully"}
             return Response(res)
+        return Response({"status":"wrong datastructure"})            
 
 
 class staffViews(APIView):
@@ -57,8 +58,9 @@ class staffViews(APIView):
         if serilized.is_valid():
             staff = serilized.save()
             print("resa,,,",staff)
-            response = {"satus":"staff created sucessfully"}
-        return Response(response)
+            response = {"satus = staff created sucessfully"}
+            return Response(response)
+        return Response({"status":"wrong datastructure"})            
 
 
 class subContractViews(APIView):
@@ -79,7 +81,8 @@ class subContractViews(APIView):
         if serilized.is_valid():
             user = serilized.save()
             response = {"satus":"subcontract created sucessfully"}
-        return Response(response)
+            return Response(response)
+        return Response({"status":"wrong datastructure"})
 
 class sitemanageViews(APIView):
 
@@ -99,7 +102,8 @@ class sitemanageViews(APIView):
         if serilized.is_valid():
             user = serilized.save()
             response = {"satus":"site added sucessfully"}
-        return Response(response)        
+            return Response(response)        
+        return Response({"status":"wrong datastructure"})
 
 
 
@@ -121,7 +125,7 @@ class loginView(APIView):
             # print(";;;;;;;",token.key)
             data = { "status":"login sucessfully","token":str(token.key)}
             print("data",data)
-        return Response(data)
+            return Response(data)
 
 
 
