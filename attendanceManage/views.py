@@ -57,7 +57,7 @@ def checkin(request):
         check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =intime, shiftid = shiftid)
         check.save()        
 
-    return Response({"status":"wrong datastructure"})
+    return Response({"status":"chicken added sucessfully"})
 
 
 
@@ -162,7 +162,7 @@ def checkout(request):
         data = labourWorkTime.objects.filter(labourerid=labourerid,date=date)
         data.update(outtime=outtime.time(),workhours=wotktime,othours=otTime,otstatus=False)         
 
-    return Response("sucess")
+    return Response("status":"checkout sucessfully")
 
 
 
