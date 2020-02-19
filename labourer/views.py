@@ -20,6 +20,7 @@ class labourerView(APIView):
             serialized.save()
             response = {"satus":"labourer added sucessfully created sucessfully"}
             return Response(response)  
+        return Response({"status":"wrong datastructure"})
                   
 
 
