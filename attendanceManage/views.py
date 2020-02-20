@@ -198,8 +198,9 @@ def dbfetch(labourerid,dates):
         print("data.................................",data["workhours"])
         dicts = { "date":date,"workhour": data["workhours"],"OThour":data["othours"]}
         print("rec.....////////////..........",dicts)
-        dbl.append(labourerid)
-        dbl.append(dicts)
+        dict2 = {"labourerid":labourerid,"info":dicts}
+        # dbl.append({"labourerid":labourerid})
+        dbl.append(dict2)
         
     return dbl
 
