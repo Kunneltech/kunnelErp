@@ -179,18 +179,15 @@ def allAttendance(request):
     # dates = ["2020-02-15","2020-07-02","2020-07-03"]
     print(".............",len(retdict))
     ls = []
-    tupl = ()
     cnt = 0
     totaldict = {}
     for cnt in range(len(retdict)):
         print(".......",retdict[cnt]["labourerid"])
         labourerid = retdict[cnt]["labourerid"]
         dbft = dbfetch(labourerid,dates)
-        ls.append(labourerid)
         ls.append(dbft)
-    lt = []       
-    lt.append(ls)
-    return Response(lt)
+
+    return Response(ls)
 
 def dbfetch(labourerid,dates):
     dbl = []
@@ -201,6 +198,7 @@ def dbfetch(labourerid,dates):
         print("data.................................",data["workhours"])
         dicts = { "date":date,"workhour": data["workhours"],"OThour":data["othours"]}
         print("rec.....////////////..........",dicts)
+        dbl.append(labourerid)
         dbl.append(dicts)
         
     return dbl
