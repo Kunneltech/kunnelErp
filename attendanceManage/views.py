@@ -56,8 +56,8 @@ def checkin(request):
     else:
         check = labourWorkTime(labourerid=labourerid, siteid = siteid, date = date,intime =intime, shiftid = shiftid)
         check.save()        
-
-    return Response({"status":"checkein added sucessfully"})
+    
+    return Response({"status":"chicken added sucessfully.."})
 
 
 
